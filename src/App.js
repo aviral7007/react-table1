@@ -1,14 +1,17 @@
 //import logo from './logo.svg';
 import './App.css';
-import { Api } from './components/api';
+import { Mytable } from './components/api';
 
 import { Header } from './components/header';
-
+// import { Searchbox } from './components/search';
+// import Button from './components/button'
 
 function App() {
   return (<div>
     <Header/>
-    <Api/>
+    {/* <Searchbox/> */}
+    <Mytable/>
+    {/* <Button/> */}
     </div>
   );
 }

@@ -1,8 +1,16 @@
 // import "./styles.css";
+//import Axios from 'axios';
 import { useState, useEffect } from "react";
 
-export  function Api() {
-  const [data, setData] = useState(null);
+import { Table } from "./table";
+
+export  function Mytable() {
+  const [dataTable, setDataTable] = useState([]);
+  const [loading ,setLoading] = useState(false);
+  const[error,setError] = useState(null);
+  const [searchTitle,setSearchTitle]=useState('');
+  //console.log('dataTable');
+
   useEffect(() => {
     fetch(`https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json`)
       .then((response) => {
@@ -11,33 +19,59 @@ export  function Api() {
       })
       .then((myData) => {
           console.log(myData)
-        setData(myData);
-      })
+        setDataTable(myData);
+        setLoading(true);
+      },
+      (error)=>{
+        setLoading(true);
+        setError(error);
+      }
+      )
       
   }, []);
+  
 
   return (
-    <div >
-      <h1>data</h1>
-        {data &&
-          data.map(({ id,name,email,role}) => (
-            <div key={id}>
-                
-              <table style={{border:'1px solid black'}}><tbody>
-              {/* <tr>
-                <th>name</th>
-                <th>email</th>
-                <th>role</th>
-            </tr> */}
-            <tr style={{border:'1px solid black'}}>
-                <th>{name}</th>
-                <th>{email}</th>
-                <th>{role}</th>
-            </tr></tbody>
-              </table>
-            </div>
-          ))}
+    <div>
+      <h1>table</h1>
       
-    </div>
-  );
+      <input 
+      type='text'
+      placeholder='search...'
+      onChange={(e)=>setSearchTitle(e.target.value)}
+      />
+{loading ?(
+  <h4>loading...</h4>
+):(
+   dataTable.filter((value)=>{
+        if(searchTitle===""){
+          return value;
+        }else if(value.name.toLowerCase().includes(searchTitle.toLowerCase()))
+        {
+          return value;
+        }
+      })
+      //  .map((item)=> <h5 key={item.id}>{item.name}</h5>)  
+      
+        
+          .map(({ id, name, email, role }) => (
+            
+              <tr key={name}>
+                {/* <td><input style='checkbox'></input></td>   */}
+                <td>{id}</td>
+                <td>{name}</td>
+                <td>{email}</td>
+                <td>{role}</td>
+              </tr>
+        
+          ))
+      
+  
+     ) }
+      
+
+              <Table data={dataTable} /> 
+              
+            </div>
+       );
 }
