@@ -4,74 +4,53 @@ import { useState, useEffect } from "react";
 
 import { Table } from "./table";
 
-export  function Mytable() {
+export function Mytable() {
   const [dataTable, setDataTable] = useState([]);
-  const [loading ,setLoading] = useState(false);
-  const[error,setError] = useState(null);
-  const [searchTitle,setSearchTitle]=useState('');
-  //console.log('dataTable');
+  const[search, setSearch] = useState('')
+  const [searchParam] = useState(["name", "email"]);
 
   useEffect(() => {
-    fetch(`https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json`)
+    fetch(
+      `https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json`
+    )
       .then((response) => {
         //   console.log(response.)
         return response.json();
       })
-      .then((myData) => {
-          console.log(myData)
-        setDataTable(myData);
-        setLoading(true);
-      },
-      (error)=>{
-        setLoading(true);
-        setError(error);
-      }
-      )
-      
+      .then(
+        (myData) => {
+          // console.log(myData);
+          setDataTable(myData); 
+        } 
+      );
   }, []);
-  
+  // useEffect(()=>{
+  //   var updateddata =  dataTable.filter(item =>item.name.toLowerCase().includes(search.toLowerCase()))
+
+  // setDataTable(updateddata)
+  // },[search])
+  const handleChangeSearch=(e)=>{
+   
+   var textsearch=e.target.value
+   
+     setSearch(textsearch)
+     var updatedData =  dataTable.filter(item =>item.name.toLowerCase().includes(textsearch.toLowerCase()))
+
+  setDataTable(updatedData)
+  }
 
   return (
     <div>
       <h1>table</h1>
-      
-      <input 
-      type='text'
-      placeholder='search...'
-      onChange={(e)=>setSearchTitle(e.target.value)}
-      />
-{loading ?(
-  <h4>loading...</h4>
-):(
-   dataTable.filter((value)=>{
-        if(searchTitle===""){
-          return value;
-        }else if(value.name.toLowerCase().includes(searchTitle.toLowerCase()))
-        {
-          return value;
-        }
-      })
-      //  .map((item)=> <h5 key={item.id}>{item.name}</h5>)  
-      
-        
-          .map(({ id, name, email, role }) => (
-            
-              <tr key={name}>
-                {/* <td><input style='checkbox'></input></td>   */}
-                <td>{id}</td>
-                <td>{name}</td>
-                <td>{email}</td>
-                <td>{role}</td>
-              </tr>
-        
-          ))
-      
-  
-     ) }
-      
 
-              <Table data={dataTable} /> 
-              
-            </div>
-       );
+      <input
+        type="text"
+        placeholder="search..."
+        value={search}
+        onChange={(e) => 
+        handleChangeSearch(e)}
+      />
+      <Table data={dataTable} />
+    </div>
+  );
 }
