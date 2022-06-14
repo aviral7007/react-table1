@@ -10,7 +10,7 @@ export const Pagination=({pageSize,totalCount,pageDisplay})=>{
 
     return(
         <nav>
-      <ul style={display:"inline"}>
+      <ul >
     
         {pageNumbers.map(pageNumber => (
           <li  key={pageNumber} className='page-item'>
