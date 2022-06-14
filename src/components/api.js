@@ -1,13 +1,14 @@
-// import "./styles.css";
-//import Axios from 'axios';
+
 import { useState, useEffect } from "react";
+import { Pagination } from "./Pagination";
 
 import { Table } from "./table";
 
 export function Mytable() {
   const [dataTable, setDataTable] = useState([]);
-  const[search, setSearch] = useState('')
-  const [searchParam] = useState(["name", "email"]);
+  const[search, setSearch] = useState('');
+  const [currentPage,setCurrentPage]=useState(1);
+  const [pageSize]=useState(10);
 
   useEffect(() => {
     fetch(
@@ -24,6 +25,12 @@ export function Mytable() {
         } 
       );
   }, []);
+  
+  const totalCount=dataTable.length;
+  
+
+
+
   // useEffect(()=>{
   //   var updateddata =  dataTable.filter(item =>item.name.toLowerCase().includes(search.toLowerCase()))
 
@@ -39,6 +46,12 @@ export function Mytable() {
   setDataTable(updatedData)
   }
 
+  const lastIndex = currentPage * pageSize;
+  const firstIndex = lastIndex - pageSize;
+  const currentIndex = dataTable.slice(firstIndex, lastIndex);
+
+  const pageDisplay=(pageNumber)=>setCurrentPage(pageNumber);
+
   return (
     <div>
       <h1>table</h1>
@@ -50,7 +63,15 @@ export function Mytable() {
         onChange={(e) => 
         handleChangeSearch(e)}
       />
-      <Table data={dataTable} />
+      <button>{totalCount}</button>
+      <Table data={currentIndex} />
+      {/* <Posts posts={currentPosts} */}
+      <Pagination
+      pageSize={pageSize}
+      totalCount={dataTable.length}
+      pageDisplay={pageDisplay}
+     
+    />
     </div>
   );
 }
