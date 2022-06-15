@@ -70,6 +70,8 @@ export function Mytable() {
       pageSize={pageSize}
       totalCount={dataTable.length}
       pageDisplay={pageDisplay}
+    setCurrentPage={setCurrentPage}
+  currentPage={currentPage}
      
     />
     </div>
