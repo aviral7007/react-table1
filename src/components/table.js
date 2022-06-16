@@ -54,7 +54,7 @@ export const Table = ({ data,handleDeleteClick }) => {
               <td>{name}</td>
               <td>{email}</td>
               <td>{role}</td>
-              <td><button type="button" onClick={()=>handleDeleteClick(id) }><AiFillDelete /></button>
+              <td><button type="button" onClick={()=>handleDeleteClick({id}) }><AiFillDelete /></button>
               
                 
                 {/* <button type="button" onClick={()=>handleDeleteClick() }><AiFillDelete /></button> */}
