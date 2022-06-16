@@ -36,25 +36,42 @@ export function Mytable() {
 
   // setDataTable(updateddata)
   // },[search])
+  const[textsearch,setTextSearch]=useState();
   const handleChangeSearch=(e)=>{
    
    var textsearch=e.target.value
    
      setSearch(textsearch)
-     var updatedData =  dataTable.filter(item =>item.name.toLowerCase().includes(textsearch.toLowerCase()))
+     var updatedData =  dataTable.filter(item =>(item.name || item.email || item.role).toLowerCase().includes(textsearch.toLowerCase()))
 
   setDataTable(updatedData)
   }
 
   const lastIndex = currentPage * pageSize;
   const firstIndex = lastIndex - pageSize;
-  const currentIndex = dataTable.slice(firstIndex, lastIndex);
+  const currentIndex =  dataTable.slice(firstIndex, lastIndex) ;
+  
+  // : dataTable.filter(item =>(item.name || item.email || item.role).toLowerCase().includes(textsearch.toLowerCase())).slice(firstIndex,lastIndex) ;
 
   const pageDisplay=(pageNumber)=>setCurrentPage(pageNumber);
+  const handleDeleteClick =(contactId)=>{
+    const newContacts = [...dataTable]
+    const index = dataTable.findIndex((contact)=>contact.id === contactId.id)
+    newContacts.splice(index,1)
+    setDataTable(newContacts)
+  }
 
   return (
     <div>
-      <h1>table</h1>
+    <h1>table</h1>
+    <h1>table</h1>
+    {/* {
+      dataTable.map((x)=>ontactIontactI
+      <div>
+        <h1>{x.id}</h1>
+      </div>
+      )
+    } */}
 
       <input
         type="text"
@@ -64,8 +81,12 @@ export function Mytable() {
         handleChangeSearch(e)}
       />
       <button>{totalCount}</button>
-      <Table data={currentIndex} />
-      {/* <Posts posts={currentPosts} */}
+
+      <Table 
+      data={currentIndex}
+      handleDeleteClick={handleDeleteClick}
+      />
+      
       <Pagination
       pageSize={pageSize}
       totalCount={dataTable.length}

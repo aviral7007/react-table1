@@ -26,12 +26,12 @@ export const Pagination = ({ pageSize, totalCount, pageDisplay ,setCurrentPage,c
               border: "1px solid #000",
             }}
             key={pageNumber}
-            className="page-item"
+            
           >
             <a
               onClick={() => pageDisplay(pageNumber)}
               href="!#"
-              className="page-link"
+              
             >
               {pageNumber}
             </a>

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { AiFillCreditCard } from "react-icons/ai";
 
-export const Table = ({ data }) => {
+export const Table = ({ data,handleDeleteClick }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [singleChecked,setSingleChecked]=useState()
   const [singleId,setSingleId] = useState()
@@ -14,9 +14,18 @@ export const Table = ({ data }) => {
     setSingleId(e.target.value)
     // console.log("checked data is",e.target)
   }
+
+  // const [list, updateList] = useState(data);
+
+  // const handleRemoveItem = (e) => {
+  //  const name = e.target.getAttribute("name")
+  //   updateList(list.filter(item => item.name !== name));
+  // };
+
+
   return (
     <table style={{ border: "1px solid black" }}>
-      <thead>
+     <thead>
         <tr>
           <th>
             <input onChange={handleOnChange} type="checkbox"></input>
@@ -39,19 +48,23 @@ export const Table = ({ data }) => {
                   checked={isChecked || (singleId === id && singleChecked)} 
                   name="name"
                   value={id}
-                />{" "}
+                />
               </td>
               <td>{id}</td>
               <td>{name}</td>
               <td>{email}</td>
               <td>{role}</td>
-              <td>
-                {" "}
-                <AiFillDelete /> &nbsp; <AiFillCreditCard />{" "}
+              <td><button type="button" onClick={()=>handleDeleteClick(id) }><AiFillDelete /></button>
+              
+                
+                {/* <button type="button" onClick={()=>handleDeleteClick() }><AiFillDelete /></button> */}
+               <button><AiFillCreditCard /></button>
               </td>
+              <td></td>
             </tr>
           ))}
       </tbody>
     </table>
+  
   );
 };
